@@ -1,14 +1,15 @@
-const rewireReactHotLoader = require('react-app-rewire-hot-loader')
+// eslint-disable-next-line import/no-extraneous-dependencies
+const rewireReactHotLoader = require("react-app-rewire-hot-loader");
 
 module.exports = function override(config, env) {
-  config = rewireReactHotLoader(config, env)
+  const configWithHotReload = rewireReactHotLoader(config, env);
 
   if (process.env.NODE_ENV === "development") {
-    config.resolve.alias = {
+    configWithHotReload.resolve.alias = {
       ...config.resolve.alias,
-      'react-dom': '@hot-loader/react-dom',
+      "react-dom": "@hot-loader/react-dom",
     };
   }
 
-  return config
-}
+  return configWithHotReload;
+};

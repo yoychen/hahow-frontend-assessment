@@ -1,7 +1,8 @@
-import React from 'react';
+import React from "react";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { hot } from "react-hot-loader/root";
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
   return (
@@ -24,4 +25,4 @@ function App() {
   );
 }
 
-export default process.env.NODE_ENV === "development" ? hot(App) : App;;
+export default process.env.NODE_ENV === "development" ? hot(App) : App;
