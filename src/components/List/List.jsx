@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import Card from "./Card";
 import devices from "../../utils/devices";
@@ -22,33 +23,49 @@ const Col = styled.div`
   }
 `;
 
-export default function List() {
+export default function List({ onHeroSelect, fetchHeroes, heroes, currentHeroId }) {
+  useEffect(() => {
+    fetchHeroes();
+  }, [fetchHeroes]);
+
+  if (!heroes) {
+    return "(loading...)";
+  }
+
+  const handleHeroSelect = (heroId) => {
+    onHeroSelect(heroId);
+  };
+
   return (
     <ListWrapper>
-      <Col>
-        <Card
-          image="http://x.annihil.us/u/prod/marvel/i/mg/5/a0/537bc7036ab02/standard_xlarge.jpg"
-          name="Thor"
-        />
-      </Col>
-      <Col>
-        <Card
-          image="http://x.annihil.us/u/prod/marvel/i/mg/5/a0/537bc7036ab02/standard_xlarge.jpg"
-          name="Thor"
-        />
-      </Col>
-      <Col>
-        <Card
-          image="http://x.annihil.us/u/prod/marvel/i/mg/5/a0/537bc7036ab02/standard_xlarge.jpg"
-          name="Thor"
-        />
-      </Col>
-      <Col>
-        <Card
-          image="http://x.annihil.us/u/prod/marvel/i/mg/5/a0/537bc7036ab02/standard_xlarge.jpg"
-          name="Thor"
-        />
-      </Col>
+      {heroes.map(({ id, name, image }) => (
+        <Col key={id}>
+          <Card
+            onClick={() => handleHeroSelect(id)}
+            selected={id === currentHeroId}
+            image={image}
+            name={name}
+          />
+        </Col>
+      ))}
     </ListWrapper>
   );
 }
+
+List.defaultProps = {
+  heroes: null,
+  currentHeroId: null,
+};
+
+List.propTypes = {
+  onHeroSelect: PropTypes.func.isRequired,
+  fetchHeroes: PropTypes.func.isRequired,
+  heroes: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      image: PropTypes.string,
+    })
+  ),
+  currentHeroId: PropTypes.string,
+};
