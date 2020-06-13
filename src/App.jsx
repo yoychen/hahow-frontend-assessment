@@ -2,7 +2,7 @@ import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { hot } from "react-hot-loader/root";
 import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import Heros from "./components/Heros";
+import Heroes from "./pages/Heroes";
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/heroes">
-            <Heros />
+            <Heroes />
           </Route>
           <Route>
             <Redirect to="/heroes" />
