@@ -2,6 +2,8 @@ import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { hot } from "react-hot-loader/root";
 import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Heroes from "./pages/Heroes";
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
           </Route>
         </Switch>
       </Router>
+
+      <ToastContainer autoClose={3000} />
     </div>
   );
 }

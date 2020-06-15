@@ -9,6 +9,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ofType } from "redux-observable";
 import { of } from "rxjs";
 import { switchMap, map, withLatestFrom, catchError } from "rxjs/operators";
+import { toast } from "react-toastify";
 import updateProfile$ from "../api/updateProfile$";
 
 const initialState = {
@@ -44,8 +45,14 @@ export const updateProfileEpic = (action$, state$) =>
     withLatestProfile(state$),
     switchMap(([, profile]) =>
       updateProfile$(profile.id, profile.abilities).pipe(
-        map(() => updateProfileFulfilled()),
-        catchError((error) => of(updateProfileFailed({ error })))
+        map(() => {
+          toast("Update successfully!");
+          return updateProfileFulfilled();
+        }),
+        catchError((error) => {
+          toast.error("The server is temporarily unavailable. Please try again later!");
+          return of(updateProfileFailed({ error }));
+        })
       )
     )
   );
