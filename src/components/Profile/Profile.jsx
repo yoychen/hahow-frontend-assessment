@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import AbilityCounter from "./AbilityCounter";
 import SaveBtn from "./SaveBtn";
+import Loading from "../Loading";
 import devices from "../../utils/devices";
 
 const ProfileWrapper = styled.div`
@@ -46,7 +47,7 @@ export default function Profile({
   const noMorePoint = availablePoints === 0;
 
   if (!profile) {
-    return "(loading...)";
+    return <Loading />;
   }
 
   return (

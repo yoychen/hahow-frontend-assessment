@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Card from "./Card";
+import Loading from "../Loading";
 import devices from "../../utils/devices";
 
 const ListWrapper = styled.div`
@@ -29,7 +30,7 @@ export default function List({ onHeroSelect, fetchHeroes, heroes, currentHeroId 
   }, [fetchHeroes]);
 
   if (!heroes) {
-    return "(loading...)";
+    return <Loading />;
   }
 
   const handleHeroSelect = (heroId) => {
