@@ -19,9 +19,9 @@ export default function SaveBtn({ onSave, isLoading, availablePoints }) {
 
   return (
     <SaveBtnWrapper>
-      <Status>剩餘點數： {availablePoints}</Status>
-      <Button onClick={onSave} disabled={btnDisabled}>
-        {isLoading ? "Uploading" : "儲存"}
+      <Status data-testid="status">剩餘點數： {availablePoints}</Status>
+      <Button data-testid="submit-btn" onClick={onSave} disabled={btnDisabled}>
+        {isLoading ? "Saving" : "儲存"}
       </Button>
     </SaveBtnWrapper>
   );

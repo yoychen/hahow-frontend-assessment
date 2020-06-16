@@ -26,17 +26,27 @@ const Button = styled.button`
 `;
 
 export default function AbilityCounter({ name, count, noMorePoint, onChange }) {
-  const substractBtnDisabled = count === 0;
+  const decrementBtnDisabled = count === 0;
 
   return (
     <CounterWrapper>
-      <Name>{name}</Name>
+      <Name data-testid="name">{name}</Name>
       <Form>
-        <Button onClick={() => onChange(count + 1)} type="button" disabled={noMorePoint}>
+        <Button
+          onClick={() => onChange(count + 1)}
+          type="button"
+          disabled={noMorePoint}
+          data-testid="increment-btn"
+        >
           +
         </Button>
-        <span>{count}</span>
-        <Button onClick={() => onChange(count - 1)} type="button" disabled={substractBtnDisabled}>
+        <span data-testid="count">{count}</span>
+        <Button
+          onClick={() => onChange(count - 1)}
+          type="button"
+          disabled={decrementBtnDisabled}
+          data-testid="decrement-btn"
+        >
           -
         </Button>
       </Form>
