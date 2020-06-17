@@ -53,11 +53,17 @@ npm start
 
 #### 採用的資源狀態慣例
 
+因為該專案的規模與需求較小，且沒有特別指定發生錯誤時的畫面呈現規則，因此本專案在資源狀態的設計上沒有額外定義 `isFetching`, `error` 等狀態欄位，以下是本專案對於資源狀態的慣例規則。
+
+以列表資源為例：
+
+- `null` => 資源正在載入中，畫面可能呈現的方式為顯示載入的圖示或是 Skeleton Screen
+- `[]` => 資源已載入完成，但列表為空，畫面可能呈現的方式為顯示空白狀態的設計畫面 (若有提供對應的設計稿)
+- `[...]` => 資源已載入完成，且列表有資料，呈現列表
+
 ### 副作用/非同步邏輯
 
 本專案使用 [`redux-observable`](https://redux-observable.js.org/) 來描述狀態相關的非同步邏輯，與常見的 `redux-thunk` 的 imperative 開發方式相比，透過使用 RxJS 提供的高抽象層級的 API，以 declarative 的方式定義非同步邏輯，可以使程式碼更佳簡潔並可以更優雅處理複雜的非同步行為。
-
-### Routing 策略
 
 ### 測試策略
 
@@ -89,7 +95,7 @@ npm start
   - 本專案用它來設定用於開發階段的 Hot Reload (詳見 [config-overrides.js](./config-overrides.js))
 
 - `husky` and `lint-staged`
-  - `husky` 用於讓我們更方便為專案設置 git hooks，本專案搭配 `lint-staged` 來讓開發者在 commit 前先自動對 staged 的程式碼進行 `eslint` 的檢查
+  - `husky` 用於讓我們更方便為專案設置 git hooks，本專案搭配 `lint-staged` 來讓開發者在 commit 前會自動對 staged 的程式碼進行 `eslint` 的檢查
 
 ### dependencies:
 
@@ -108,7 +114,52 @@ npm start
 - `react-toastify`
   - React 的 notification ui 套件
 - `redux-observable` and `rxjs`
+  - redux 生態圈中其中一種處理非同步 action 的解決方案，使用 RxJS 提供的高抽象層級的 API，以 declarative 的方式定義非同步邏輯，可以使程式碼更佳簡潔並可以更優雅處理複雜的非同步行為
 - `styled-components`
   - React 生態圈中其中一種 CSS-in-JS 的解決方案，比起知名 React ui framework `material-ui` 所使用的 CSS-in-JS 解決方案 `JSS` (使用 JS 的 literal object 來定義元件的樣式)，以 ES6 模板字串撰寫 css 的方式不僅更直覺好寫，因為本質還是 JS，一樣也可以享有使用表達式定義樣式值的好處，其背後所使用 HOC 的實作也可以方便對元件樣式進行擴展。
 - `@testing-library/react`
-  - 一套前端測試的 utils，由於他僅提供 DOM 層級的畫面呈現及觸發事件相關的 API，不像另一套 React 的測試 utils `Enzyme` 可以對 components 進行 shallow mount，以及使用 Wrapper 存取 components 實例的 props 與 state，但這些限制可以讓開發者更專注於測試 components 的外部呈現與形為，避免寫出過於測試實作細節的脆弱測試 (overspecification)。
+  - 一套前端測試的 utils，由於他僅提供 DOM 層級的畫面呈現及觸發事件相關 API，不像另一套 React 的測試 utils `Enzyme` 可以對 components 進行 shallow mount，以及使用 Wrapper 存取 components 實例的 props 與 state，但這些限制可以讓開發者更專注於測試 components 的外部呈現與行為，避免寫出過度測試實作細節的脆弱測試 (overspecification)。
+
+## 寫註解的原則
+
+盡量以良好的命名、程式碼的編排、職責的切分等方式增加程式碼的可讀性來取代撰寫註解；若該問題的解決方式較為特殊，或是有些訊息或可能遇到的問題並非能透過閱讀程式碼而可直接理解，是我認為需要寫註解最佳時機。
+
+## 專案中遇到的困難、問題，以及解決的方法
+
+這邊除了紀錄開發中遇到的問題外，也會分享開發時的一些心路歷程，及設計上的想法。
+
+### Hero List 的排版方式
+
+考慮該專案的規模與所需輸入元件複雜度較小，故沒有額外使用第三方 ui framework，而是選擇搭配 `styled-components` 自己刻所需的排版與樣式；在 Hero List 的實作上原先想使用 flex box 搭配 `justify-content: space-between; flex-wrap: wrap;` 來實現，但在畫面的呈現上會因為不同裝置的螢幕尺寸而導致卡片之間的邊距沒有很一致，甚至在一些螢幕尺寸下的邊距寬度沒有很美觀，因此最後選擇使用常見 grid system 方式來排版，中斷點的定義參考 bootstrap，並自己實作簡易的排版元件，在實作過程讓我更加深刻了解 mobile first 的設計風格，在實作上會先定義最小螢幕尺寸的畫面呈現樣式，在漸漸加上大螢幕尺寸的畫面呈現樣式，因此在實作上不會出現 `@media (min-width: 756px) and (min-width: 991px)` 這種定義包含最大寬度值的 media query 寫法，且在中斷點的變數定義上也只需要定義不同螢幕尺寸的最小寬度值。
+
+### Hero Card 的連結設計
+
+為了讓使用者在點擊 Hero Card 進入 Hero Profile (`/heroes/:heroId`) 後還可以回到 Hero List 的路由 (`/heroes`)，本專案在 Hero List 的實作上選擇不使用 react router 的 `<Link>` 來建立前往 Hero Profile 路由的連結，而是將 Hero List 的 component 加上 `onHeroSelect` props，將被使用者選擇的 Hero 之 ID 傳給 parent component，由 parent component 決定如何處理的英雄被使用者選擇的事件。
+
+以 Heroes Page 為例 ([Heroes.jsx](./src/pages/Heroes.jsx))，他會判斷使用者選擇的 Hero 是否是當前 Hero Profile 正在編輯的 Hero，若是則回到 Hero List 的路由。
+
+### Profile 狀態的清空時機與合適的作法
+
+原先在從 Hero Profile 回到 Hero List 路由時，因為沒有特別將 Redux Store 中的 profile 資料清除，故在使用者再次點選 Hero 進入 Hero Profile 時，會先渲染出過去點選的 Hero 的 profile 畫面後，才會清空畫面，渲染載入中的畫面，因此需要在回到 Hero List 頁面時，或是其他更適合的位置加上清空 Profile 狀態的邏輯，以下紀錄我當時列出可行的做法與評估該作法是否合適的考量原因。
+
+#### 1. 在回到 Hero List 頁面的邏輯前加上清空 Profile 狀態的邏輯 (X)
+
+目前是在 Heroes Page 的 component 中判斷應該前往其他 Hero Profile 路由還是回到 Hero List 路由，因可以在回到 Hero List 頁面的邏輯前加上清空 Profile 狀態的邏輯，但這樣的做法會導致切換路由的邏輯中混雜不相關的 redux 狀態調整邏輯，因此該作法個人覺得不合適。
+
+#### 2. 改使用 `useLayoutEffect()` 取代 `useEffect()` 來執行非同步的 fetchProfile Action (X)
+
+若該 component 是使用 class component 的 API 來定義，並在 `componentDidMount()` 的 Hook 執行非同步的 fetchProfile Action，便不會出現這個問題，雖然 React 還是會生成出過去點選的 Hero 的 profile 畫面之 VDOM，但由於 `componentDidMount()` 呼叫的時機會是在同一個 Macrotask 中，故他會重新呼叫 render function 生成載入中的畫面，最終 browser 只會繪製載入中的畫面，而 Hooks 中的 `useEffect()` 在設計上為了避免執行過多的邏輯而阻礙畫面渲染，故會是在下一個 Macrotask 才被呼叫，中間會經歷一次的 browser 畫面繪製，因此使用者才會看到先渲染出過去點選的 Hero 的 profile 畫面後，才會清空畫面，渲染載入中的畫面 (更多細節可看下面附圖中的 Devtool Performance 的比較)，因此只要將 `Profile.jsx` 中的 `useEffect()` 改為 `useLayoutEffect()`，便可以解決，但這樣的作法若沒有特別留下使用 `useLayoutEffect()` 的相關原因註解會使後續維護者產生困惑，也使專案中的組件呼叫 API 的時機點不夠一致，因此最後沒有使用這個方法。
+
+![](./useEffect.png)
+
+![](./useLayoutEffect.png)
+
+#### 3. 使用 `useEffect()` 的 Effect 管理機制 (O)
+
+`useEffect()` 在設計上提出一種新的 Side effect 邏輯組織的做法與思維以解決在使用 component 的生命週期來撰寫對應的 Side effect 邏輯時，所導致的成對 Side effect 邏輯分散在不同生命週期函數中的問題；`useEffect()` 中的 callback 可以回傳該 Effect 的清除函數，以供 component 要執行下個 Effect 前 (指定的 props 改變時) 或是 component 將被 unmount 時呼叫，因此 Effect 的清除函數是我認為最適合呼叫清空 Profile 狀態的時機。
+
+### 使用 Redux Observable 處理非同步的 API 請求與使用 Marble Diagram 撰寫測試
+
+在非同步的 API 請求處理上，以 Hero Profile 的實作為例，在網路環境較慢的情況下，若使用者頻繁切換要編輯的 Hero，則會發生之前發出的 Hero Profile 請求在完成後已經不是當前需要的資料，還將該資料呈現於元件的畫面上，這個問題不容易使用 `redux-thunk` 來解決，但若使用 `redux-observable` 則可以使用 `switchMap` operator 來解決，他只會訂閱最新生成的 API 請求的 Observable，若之前的請求還尚未完成，則會在解訂閱時將請求取消 (使用 `'rxjs/ajax`)，且在測試上還可以使用 `rxjs/testing` 提供的 `TestScheduler`，以 Marble Diagram 的方式描述非同步的行為 ([epics.spec.js](./src/tests/slices/profile/epics.spec.js))，輕鬆測試非同步的 RxJS 邏輯。
+
+![](./fetchProfile.png)
