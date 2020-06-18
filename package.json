@@ -54,6 +54,5 @@
     "react-app-rewire-hot-loader": "^2.0.1",
     "react-app-rewired": "^2.1.6",
     "react-hot-loader": "^4.12.21"
-  },
-  "homepage": "/hahow-frontend-assessment"
+  }
 }
