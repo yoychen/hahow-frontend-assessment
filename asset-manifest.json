@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/hahow-frontend-assessment/static/css/main.9358cf48.chunk.css",
+    "main.js": "/hahow-frontend-assessment/static/js/main.ac4b5cd2.chunk.js",
+    "main.js.map": "/hahow-frontend-assessment/static/js/main.ac4b5cd2.chunk.js.map",
+    "runtime-main.js": "/hahow-frontend-assessment/static/js/runtime-main.cc27e9ae.js",
+    "runtime-main.js.map": "/hahow-frontend-assessment/static/js/runtime-main.cc27e9ae.js.map",
+    "static/css/2.d34346ea.chunk.css": "/hahow-frontend-assessment/static/css/2.d34346ea.chunk.css",
+    "static/js/2.b206e8eb.chunk.js": "/hahow-frontend-assessment/static/js/2.b206e8eb.chunk.js",
+    "static/js/2.b206e8eb.chunk.js.map": "/hahow-frontend-assessment/static/js/2.b206e8eb.chunk.js.map",
+    "index.html": "/hahow-frontend-assessment/index.html",
+    "precache-manifest.664617a85443e35f3b183b952bdb8a6f.js": "/hahow-frontend-assessment/precache-manifest.664617a85443e35f3b183b952bdb8a6f.js",
+    "service-worker.js": "/hahow-frontend-assessment/service-worker.js",
+    "static/css/2.d34346ea.chunk.css.map": "/hahow-frontend-assessment/static/css/2.d34346ea.chunk.css.map",
+    "static/css/main.9358cf48.chunk.css.map": "/hahow-frontend-assessment/static/css/main.9358cf48.chunk.css.map",
+    "static/js/2.b206e8eb.chunk.js.LICENSE.txt": "/hahow-frontend-assessment/static/js/2.b206e8eb.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cc27e9ae.js",
+    "static/css/2.d34346ea.chunk.css",
+    "static/js/2.b206e8eb.chunk.js",
+    "static/css/main.9358cf48.chunk.css",
+    "static/js/main.ac4b5cd2.chunk.js"
+  ]
+}
