@@ -1,9 +1,11 @@
 # hahow-frontend-assessment
 
 ![Main workflow](https://github.com/yoychen/hahow-frontend-assessment/workflows/Main%20workflow/badge.svg)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6a5241ab-8706-4301-9d98-89007af5a4d3/deploy-status)](https://app.netlify.com/sites/hahow-frontend-assessment/deploys)
 
 - [題目快照](https://github.com/hahow/hahow-recruit/blob/d9fbdc22adaeda36ecc5ed1a781c72e8f4f0866e/frontend.md)
 - [Demo](https://yoychen.github.io/hahow-frontend-assessment/#/heroes)
+- [Fancy version](https://fancy--hahow-frontend-assessment.netlify.app/#/heroes) (in `fancy` branch)
 
 ## 如何執行
 
