@@ -3,25 +3,10 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import Card from "./Card";
 import Loading from "../Loading";
-import devices from "../../utils/devices";
 
 const ListWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-`;
-
-const Col = styled.div`
-  flex-basis: 100%;
-  padding: 1em;
-  box-sizing: border-box;
-
-  @media screen and ${devices.sm} {
-    flex-basis: 50%;
-  }
-
-  @media screen and ${devices.md} {
-    flex-basis: 25%;
-  }
 `;
 
 export default function List({ onHeroSelect, fetchHeroes, heroes, currentHeroId }) {
@@ -40,14 +25,14 @@ export default function List({ onHeroSelect, fetchHeroes, heroes, currentHeroId 
   return (
     <ListWrapper>
       {heroes.map(({ id, name, image }) => (
-        <Col key={id}>
-          <Card
-            onClick={() => handleHeroSelect(id)}
-            selected={id === currentHeroId}
-            image={image}
-            name={name}
-          />
-        </Col>
+        <Card
+          key={id}
+          onClick={() => handleHeroSelect(id)}
+          selected={id === currentHeroId}
+          image={image}
+          name={name}
+          id={id}
+        />
       ))}
     </ListWrapper>
   );

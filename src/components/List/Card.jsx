@@ -1,9 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import Profile from "../Profile";
 
 const CardWrapper = styled.div`
-  padding: 0.75em;
+  position: relative;
+  width: 230px;
+  height: 290px;
+  margin: 0.5em;
   border-radius: 3px;
   background-color: white;
   box-shadow: 0 0px 2.2px rgba(0, 0, 0, 0.014), 0 0px 5.3px rgba(0, 0, 0, 0.02),
@@ -13,15 +17,12 @@ const CardWrapper = styled.div`
   cursor: pointer;
   user-select: none;
 
-  transition: box-shadow 0.25s, transform 0.25s;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
   transition-timing-function: ease-in-out;
 
   &.active {
-    box-shadow: 0 2.5px 2.8px rgba(0, 0, 0, 0.011), 0 6.1px 6.7px rgba(0, 0, 0, 0.016),
-      0 11.4px 12.5px rgba(0, 0, 0, 0.02), 0 20.3px 22.3px rgba(0, 0, 0, 0.024),
-      0 38px 41.8px rgba(0, 0, 0, 0.029), 0 91px 100px rgba(0, 0, 0, 0.04);
-    transform: translateY(-8px);
-    outline: 2px dashed #3a678b;
+    transform: rotateX(180deg);
   }
 
   .image {
@@ -33,11 +34,32 @@ const CardWrapper = styled.div`
   }
 `;
 
-export default function Card({ onClick, image, name, selected }) {
+const Surface = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.75em;
+  background-color: white;
+
+  &.default-cursor {
+    cursor: default;
+  }
+
+  &.back {
+    transform: rotateX(180deg) translateZ(1px);
+  }
+`;
+
+export default function Card({ onClick, image, name, id, selected }) {
   return (
     <CardWrapper onClick={onClick} className={`${selected ? "active" : ""}`}>
-      <img className="image" src={image} alt={name} />
-      <h2 className="title">{name}</h2>
+      <Surface>
+        <img className="image" src={image} alt={name} />
+        <h2 className="title">{name}</h2>
+      </Surface>
+      <Surface className="back default-cursor">{selected && <Profile heroId={id} />}</Surface>
     </CardWrapper>
   );
 }
@@ -46,5 +68,6 @@ Card.propTypes = {
   onClick: PropTypes.func.isRequired,
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
 };

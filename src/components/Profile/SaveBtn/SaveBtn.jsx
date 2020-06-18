@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const SaveBtnWrapper = styled.div`
-  margin: 1em 0;
+  margin: 2.5em 0;
 `;
 const Button = styled.button`
   min-width: 130px;

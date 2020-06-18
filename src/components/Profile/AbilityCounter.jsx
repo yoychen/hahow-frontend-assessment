@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { SwitchTransition, CSSTransition } from "react-transition-group";
 
 const CounterWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75em;
+  margin: 0.25em 0;
 `;
 
 const Name = styled.span`
@@ -17,8 +18,8 @@ const Form = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 130px;
-  margin: 0 1em;
+  width: 120px;
+  margin: 0 0.25em;
 `;
 
 const Button = styled.button`
@@ -40,7 +41,17 @@ export default function AbilityCounter({ name, count, noMorePoint, onChange }) {
         >
           +
         </Button>
-        <span data-testid="count">{count}</span>
+
+        <SwitchTransition>
+          <CSSTransition
+            key={count}
+            addEndListener={(node, done) => node.addEventListener("transitionend", done, false)}
+            classNames="slide-up"
+          >
+            <span data-testid="count">{count}</span>
+          </CSSTransition>
+        </SwitchTransition>
+
         <Button
           onClick={() => onChange(count - 1)}
           type="button"
