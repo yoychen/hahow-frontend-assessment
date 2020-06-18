@@ -1,5 +1,10 @@
 # hahow-frontend-assessment
 
+![Main workflow](https://github.com/yoychen/hahow-frontend-assessment/workflows/Main%20workflow/badge.svg)
+
+- [題目快照](https://github.com/hahow/hahow-recruit/blob/d9fbdc22adaeda36ecc5ed1a781c72e8f4f0866e/frontend.md)
+- [Demo](https://yoychen.github.io/hahow-frontend-assessment/#/heroes)
+
 ## 如何執行
 
 本專案使用 [Create React App](https://github.com/facebook/create-react-app) 來建置 React 的開發環境，以省去花時間在設定 webpack、babel 等開發環境上，更多如何開發、建置專案的細節請看 [CONTRIBUTING.md](./CONTRIBUTING.md)。
@@ -103,8 +108,8 @@ npm start
   - 當前主流的複雜前端使用者介面開發的解決方案之一，特色是以宣告式的寫法定義資料 (狀態) 於畫面上的呈現以及處理使用者交互，並透過 Virtual DOM 的機制以找出渲染畫面上開銷相對低的修改方式
   - 與 `Vue.js` 小比較
     - 因為兩個解決方案我皆有稍微涉略，在此分享個人覺得兩者在實作上最大差異的淺見
-    - `Vue.js` 的狀態是 mutable 的，背後透過響應的機制 (`Vue.js` 2.x 是使用 `defineProperty()`，3.x 則改用 `Proxy` 實作) 可偵測更精準地找出狀態變化的屬性欄位，故在 VDOM rerender 的開銷上 故可以在狀態變化後精準知道那些元件有用到該欄位而需要重新建立 VDOM，進而減少在 VDOM Diff 上的開銷，缺點是如果遇到資料非常龐大的狀態，在初始建立時因為需要遞迴執行 `defineProperty()` (`Vue.js` 2.x) 故首屏的渲染上會比較耗時。
-    - 在 `React` 開發上，若開發者沒有額外對 component 做渲染效能的調校 (`PureComponent`, `shouldComponentUpdate`)，當父節點狀態更新時，除了 React Reconciliation 機制中判定無須 rerender 的少數特例外，子節點的 components 都會執行 render function 生成新的 VDOM，因此在大型複雜的畫面上可能會造成不小的開銷，故 `React` 在狀態設計上希望開發者以 immutable 的方式更新狀態，除了可以更好的追蹤與管理狀態，在部分情境下還可在有效能瓶頸的節點上使用前面提到的 `PureComponent`, `shouldComponentUpdate` 等方式，對於 rerender 進行效能優化。
+    - `Vue.js` 的狀態是 mutable 的，背後透過響應的機制 (`Vue.js` 2.x 是使用 `defineProperty()`，3.x 則改用 `Proxy` 實作) 可更精準地找出狀態變化的屬性欄位，故可以在狀態變化後精準知道那些元件有用到該欄位而需要重新建立 VDOM，進而減少在 VDOM Diff 上的開銷，缺點是如果遇到資料非常龐大的狀態，在初始建立時因為需要遞迴執行 `defineProperty()` (`Vue.js` 2.x) 故首屏的渲染上會比較耗時
+    - 在 `React` 開發上，若開發者沒有額外對 component 做渲染效能的調校 (`PureComponent`, `shouldComponentUpdate`)，當父節點狀態更新時，除了 React Reconciliation 機制中判定無須 rerender 的少數特例外，子節點的 components 皆會執行 render function 生成新的 VDOM，因此在大型複雜的畫面上可能會造成不小的開銷，故 `React` 在狀態設計上希望開發者以 immutable 的方式更新狀態，除了可以更好的追蹤與管理狀態，在部分情境下還可在有效能瓶頸的節點上使用前面提到的 `PureComponent`, `shouldComponentUpdate` 等方式，對於 rerender 進行效能優化
 - `redux`
   - Flux-like 的狀態管理解決方案，Single source of ture 的設計原則可以讓我們更集中管理應用的狀態，並確保狀態的一致性；搭配 `react-redux` 使狀態可以與 react 進行整合，除了可以集中管理應用的狀態、避免將狀態一層一層傳遞外，也可讓狀態相關的領域邏輯與非同步行為從 React components 中抽離出來。
 - `@reduxjs/toolkit`
@@ -116,9 +121,9 @@ npm start
 - `redux-observable` and `rxjs`
   - redux 生態圈中其中一種處理非同步 action 的解決方案，使用 RxJS 提供的高抽象層級的 API，以 declarative 的方式定義非同步邏輯，可以使程式碼更佳簡潔並可以更優雅處理複雜的非同步行為
 - `styled-components`
-  - React 生態圈中其中一種 CSS-in-JS 的解決方案，比起知名 React ui framework `material-ui` 所使用的 CSS-in-JS 解決方案 `JSS` (使用 JS 的 literal object 來定義元件的樣式)，以 ES6 模板字串撰寫 css 的方式不僅更直覺好寫，因為本質還是 JS，一樣也可以享有使用表達式定義樣式值的好處，其背後所使用 HOC 的實作也可以方便對元件樣式進行擴展。
+  - React 生態圈中其中一種 CSS-in-JS 的解決方案，比起知名 React ui framework `material-ui` 所使用的 CSS-in-JS 解決方案 `JSS` (使用 JS 的 literal object 來定義元件的樣式)，以 ES6 模板字串撰寫 css 的方式不僅更直覺好寫，因為本質還是 JS，一樣也可以享有使用表達式定義樣式值的好處，其背後所使用 HOC 的實作也可以方便對元件樣式進行擴展
 - `@testing-library/react`
-  - 一套前端測試的 utils，由於他僅提供 DOM 層級的畫面呈現及觸發事件相關 API，不像另一套 React 的測試 utils `Enzyme` 可以對 components 進行 shallow mount，以及使用 Wrapper 存取 components 實例的 props 與 state，但這些限制可以讓開發者更專注於測試 components 的外部呈現與行為，避免寫出過度測試實作細節的脆弱測試 (overspecification)。
+  - 一套前端測試的 utils，由於他僅提供 DOM 層級的畫面呈現及觸發事件相關 API，不像另一套 React 的測試 utils `Enzyme` 可以對 components 進行 shallow mount，以及使用 Wrapper 存取 components 實例的 props 與 state，但這些限制可以讓開發者更專注於測試 components 的外部呈現與行為，避免寫出過度測試實作細節的脆弱測試 (overspecification)
 
 ## 寫註解的原則
 
